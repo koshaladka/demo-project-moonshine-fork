@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\MoonShineServiceProvider;
+//use MoonShine\Providers\MoonShineServiceProvider as MSProvider;
 
 return [
 
@@ -167,6 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
+//        MSProvider::class,
 
         /*
          * Application Service Providers...
