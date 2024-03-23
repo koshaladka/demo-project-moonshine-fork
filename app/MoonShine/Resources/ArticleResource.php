@@ -5,10 +5,13 @@ namespace App\MoonShine\Resources;
 use App\Models\Article;
 use App\Models\Comment;
 use App\MoonShine\DetailComponents\ExampleDetailComponent;
+use App\MoonShine\Fields\ItemAmount;
+use App\MoonShine\Filters\CommentTextFilter;
 use App\MoonShine\FormComponents\ExampleFormComponent;
 use App\MoonShine\IndexComponents\ExampleIndexComponent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Koshaladka\InputExtensionCharCount\InputExtensions\CharCount;
 use MoonShine\Actions\ExportAction;
 use MoonShine\Actions\ImportAction;
 use MoonShine\BulkActions\BulkAction;
@@ -82,6 +85,8 @@ class ArticleResource extends Resource
             Grid::make([
                 Column::make([
                     Block::make('Main information', [
+                        ItemAmount::make('Item amount'),
+
                         Button::make(
                             'Link to article',
                             $this->getItem() ? route('articles.show', $this->getItem()) : '/',
@@ -202,6 +207,7 @@ class ArticleResource extends Resource
                             Tab::make('Seo', [
                                 Text::make('Seo title')
                                     ->fieldContainer(false)
+                                    ->extension(new CharCount())
                                     ->hideOnIndex(),
 
                                 Text::make('Seo description')
@@ -367,26 +373,27 @@ class ArticleResource extends Resource
     public function filters(): array
     {
         return [
-            TextFilter::make('Title'),
-
-            BelongsToFilter::make('Author', resource: 'name')
-                ->nullable()
-                ->canSee(fn() => auth()->user()->moonshine_user_role_id === 1),
-
-            TextFilter::make('Slug'),
-
-            BelongsToManyFilter::make('Categories')
-                ->select(),
-
-            DateRangeFilter::make('Created at'),
-
-            SlideFilter::make('Age')
-                ->fromField('age_from')
-                ->toField('age_to')
-                ->min(0)
-                ->max(60),
-
-            SwitchBooleanFilter::make('Active')
+            CommentTextFilter::make('Comment text'),
+//            TextFilter::make('Title'),
+//
+//            BelongsToFilter::make('Author', resource: 'name')
+//                ->nullable()
+//                ->canSee(fn() => auth()->user()->moonshine_user_role_id === 1),
+//
+//            TextFilter::make('Slug'),
+//
+//            BelongsToManyFilter::make('Categories')
+//                ->select(),
+//
+//            DateRangeFilter::make('Created at'),
+//
+//            SlideFilter::make('Age')
+//                ->fromField('age_from')
+//                ->toField('age_to')
+//                ->min(0)
+//                ->max(60),
+//
+//            SwitchBooleanFilter::make('Active')
         ];
     }
 

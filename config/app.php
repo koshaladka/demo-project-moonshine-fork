@@ -169,6 +169,7 @@ return [
          * Package Service Providers...
          */
 //        MSProvider::class,
+        \Koshaladka\InputExtensionCharCount\Providers\CharCountServiceProvider::class,
 
         /*
          * Application Service Providers...
